@@ -12,9 +12,7 @@ module.exports = {
             return req.query[param] || req.query[shorten] || req.body[param] || req.body[shorten];
         };
 
-        var size = (getParam('size') || 100) / 10;
-        var width = size[0];
-        var height = size[1];
+        var size = getParam('size') || 5;
         var encoding = getParam('encoding') || 'utf-8';
         var content = getParam('content');
         var leven = getParam('leven') || 'M';
@@ -22,7 +20,7 @@ module.exports = {
 
         var options = {
             type : 'png',
-            size : size,
+            size : parseInt(size),
             encoding : encoding,
             ec_level : leven,
             margin : parseInt(margin, 10)
