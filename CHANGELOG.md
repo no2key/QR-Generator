@@ -1,3 +1,12 @@
+<a name="1.0.1"></a>
+### 1.0.1 (2014-03-19)
+
+
+#### Bug Fixes
+
+* Parse size to number. ([957c8d99](https://github.com/wandoulabs/QR-Generator/commit/957c8d995699bee16afa1a552a1c9eb7ed82b1b1))
+
+
 <a name="1.0.0"></a>
 ## 1.0.0 (2014-03-19)
 
