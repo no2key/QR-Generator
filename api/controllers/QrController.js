@@ -25,7 +25,7 @@ module.exports = {
             size : size,
             encoding : encoding,
             ec_level : leven,
-            margin : margin
+            margin : parseInt(margin, 10)
         };
 
         if (content !== undefined) {
@@ -63,11 +63,11 @@ module.exports = {
 
                     target.on('end', readAndSendFile);
                 }
-            });     
+            });
         } else {
             res.send({
                 error : 'Specify content pls. '
-            });
+            }, 404);
         }
     }
 };
