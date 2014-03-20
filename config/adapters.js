@@ -13,5 +13,13 @@
  */
 
 module.exports.adapters = {
-    'default' : 'mongo'
+    'default' : 'redis',
+
+    mongo : {
+        module : 'sails-redis',
+        host : 'localhost',
+        port : 6379,
+        user : '',
+        password : ''
+    }
 };
