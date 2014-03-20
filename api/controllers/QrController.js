@@ -1,4 +1,5 @@
 var qr = require('qr-image');
+var cache = require('memory-cache');
 
 var redis = require('redis');
 var client = redis.createClient();
@@ -57,10 +58,10 @@ module.exports = {
 
             res.header('Content-Type', 'image/png');
 
-            var cache = cache.get(key);
+            var c = cache.get(key);
 
-            if (cache) {
-                res.send(new Buffer(cache, 'binary'), 200);
+            if (c) {
+                res.send(new Buffer(c, 'binary'), 200);
 
                 return;
             }
