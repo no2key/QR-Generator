@@ -28,6 +28,7 @@ if (environment === 'production') {
             cluster.fork();
         }
     } else {
+        console.log('Cluster start! ');
         startServer.call(this);
     }
 } else {
