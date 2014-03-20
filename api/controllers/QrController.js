@@ -1,8 +1,3 @@
-var fs = require('fs');
-var crypto = require('crypto');
-var path = require('path');
-var stream = require('stream');
-
 var qr = require('qr-image');
 
 var redis = require('redis');

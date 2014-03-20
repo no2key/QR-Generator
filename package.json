@@ -8,7 +8,6 @@
         "ejs": "0.8.4",
         "optimist": "0.3.4",
         "qr-image" : "1.1.0",
-        "memory-cache" : "0.0.5",
         "redis" : "0.10.1"
     },
     "devDependencies": {
@@ -16,7 +15,6 @@
         "ejs": "0.8.5",
         "optimist": "0.6.1",
         "qr-image" : "1.1.0",
-        "memory-cache" : "0.0.5",
         "redis" : "0.10.1",
         "matchdep" : "0.3.0",
         "grunt" : "0.4.4",
