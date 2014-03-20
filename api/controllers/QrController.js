@@ -64,6 +64,8 @@ module.exports = {
                     var buffers = [];
                     var nread = 0;
 
+                    target.pipe(res);
+
                     target.on('data', function (chunk) {
                         buffers.push(chunk);
                         nread += chunk.length;
@@ -75,8 +77,6 @@ module.exports = {
                         client.set(key, buffer.toString('binary'), function (err, result) {
                             return;
                         });
-
-                        res.send(buffer, 200);
                     });
                 }
             });
