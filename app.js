@@ -17,7 +17,7 @@ var startServer = function (argument) {
             response.end();
         }
 
-    }).listen(1338);
+    }).listen(1337);
 };
 
 var environment = process.env.NODE_ENV;
