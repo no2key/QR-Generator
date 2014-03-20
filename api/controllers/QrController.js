@@ -57,7 +57,17 @@ module.exports = {
 
             res.header('Content-Type', 'image/png');
 
+            var cache = cache.get(key);
+
+            if (cache) {
+                res.send(new Buffer(cache, 'binary'), 200);
+
+                return;
+            }
+
             client.get(key, function (err, result) {
+                cache.put(key, result, 1000 * 60 * 60 * 24);
+
                 if (result) {
                     res.send(new Buffer(result, 'binary'), 200);
                 } else {

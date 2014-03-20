@@ -8,7 +8,8 @@
         "ejs": "0.8.4",
         "optimist": "0.3.4",
         "qr-image" : "1.1.0",
-        "redis" : "0.10.1"
+        "redis" : "0.10.1",
+        "memory-cache" : "0.0.5"
     },
     "devDependencies": {
         "sails": "0.9.13",
@@ -16,6 +17,7 @@
         "optimist": "0.6.1",
         "qr-image" : "1.1.0",
         "redis" : "0.10.1",
+        "memory-cache" : "0.0.5",
         "matchdep" : "0.3.0",
         "grunt" : "0.4.4",
         "grunt-open" : "0.2.3",
