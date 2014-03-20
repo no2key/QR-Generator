@@ -17,7 +17,7 @@ var startServer = function (argument) {
             response.end();
         }
 
-    }).listen(1338);
+    }).listen(1337);
 };
 
 var environment = process.env.NODE_ENV;
@@ -28,6 +28,7 @@ if (environment === 'production') {
             cluster.fork();
         }
     } else {
+        console.log('Cluster start! ');
         startServer.call(this);
     }
 } else {
