@@ -1,9 +1,38 @@
 var fs = require('fs');
 var crypto = require('crypto');
 var path = require('path');
+var stream = require('stream');
 
 var qr = require('qr-image');
-var cache = require('memory-cache');
+
+var redis = require('redis');
+var client = redis.createClient();
+
+var getBuffer = function (buffers, length) {
+    var buffer;
+
+    switch(buffers.length) {
+    case 0:
+        buffer = new Buffer(0);
+        break;
+    case 1:
+        buffer = buffers[0];
+        break;
+    default:
+        buffer = new Buffer(length);
+        var i;
+        var pos;
+        var l;
+        for (i = 0, pos = 0, l = buffers.length; i < l; i++) {
+            var chunk = buffers[i];
+            chunk.copy(buffer, pos);
+            pos += chunk.length;
+        }
+        break;
+    }
+
+    return buffer;
+};
 
 module.exports = {
     gen : function (req, res) {
@@ -29,37 +58,31 @@ module.exports = {
         if (content !== undefined) {
             var target = qr.image(content, options);
 
-            var seed = content + size + encoding + leven + margin;
+            var key = content + size + encoding + leven + margin;
 
-            var filename = '';
-            var cachedFilename = cache.get(seed);
+            res.header('Content-Type', 'image/png');
 
-            if (!cachedFilename) {
-                filename = crypto.createHash('md5').update(seed).digest('hex');
-
-                // Cache for one day
-                cache.put(seed, filename, 1000 * 60 * 60 * 24);
-            } else {
-                filename = cachedFilename;
-            }
-
-            var filePath = path.resolve(__dirname, '../../caches', filename + '.png');
-
-            var readAndSendFile = function () {
-                res.header('Content-Type', 'image/png');
-
-                var readStream = fs.createReadStream(filePath);
-
-                readStream.pipe(res);
-            };
-
-            fs.exists(filePath, function (exists) {
-                if (exists) {
-                    readAndSendFile.call(this);
+            client.get(key, function (err, result) {
+                if (result) {
+                    res.send(new Buffer(result, 'binary'), 200);
                 } else {
-                    target.pipe(fs.createWriteStream(filePath));
+                    var buffers = [];
+                    var nread = 0;
 
-                    target.on('end', readAndSendFile);
+                    target.on('data', function (chunk) {
+                        buffers.push(chunk);
+                        nread += chunk.length;
+                    });
+
+                    target.on('end', function (chunk) {
+                        var buffer = getBuffer(buffers, nread);
+
+                        client.set(key, buffer.toString('binary'), function (err, result) {
+                            return;
+                        });
+
+                        res.send(buffer, 200);
+                    });
                 }
             });
         } else {
