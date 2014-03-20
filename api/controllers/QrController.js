@@ -1,3 +1,6 @@
+var querystring = require('querystring');
+var url = require('url');
+
 var qr = require('qr-image');
 var cache = require('memory-cache');
 
@@ -32,9 +35,10 @@ var getBuffer = function (buffers, length) {
 
 module.exports = {
     gen : function (req, res) {
+        var queryObj = querystring.parse(url.parse(req.url).query);
         var getParam = function (param) {
             var shorten = param[0];
-            return req.query[param] || req.query[shorten] || req.body[param] || req.body[shorten];
+            return queryObj[param] || queryObj[shorten];
         };
 
         var size = getParam('size') || 5;
@@ -56,13 +60,16 @@ module.exports = {
 
             var key = content + size + encoding + leven + margin;
 
-            res.header('Content-Type', 'image/png');
+            res.writeHead(200, {
+                'Content-Type' : 'image/png'
+            });
 
             var c = cache.get(key);
 
             if (c) {
-                res.send(new Buffer(c, 'binary'), 200);
+                res.write(new Buffer(c, 'binary'), 200);
 
+                res.end();
                 return;
             }
 
@@ -70,7 +77,8 @@ module.exports = {
                 cache.put(key, result, 1000 * 60 * 60 * 24);
 
                 if (result) {
-                    res.send(new Buffer(result, 'binary'), 200);
+                    res.write(new Buffer(result, 'binary'), 200);
+                    res.end();
                 } else {
                     var buffers = [];
                     var nread = 0;
@@ -88,13 +96,17 @@ module.exports = {
                         client.set(key, buffer.toString('binary'), function (err, result) {
                             return;
                         });
+
+                        res.write(buffer, 200);
+                        res.end();
                     });
                 }
             });
         } else {
-            res.send({
+            res.write(JSON.stringify({
                 error : 'Specify content pls. '
-            }, 404);
+            }), 404);
+            res.end();
         }
     }
 };
