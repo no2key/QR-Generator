@@ -1,3 +1,5 @@
+require('newrelic');
+
 var os = require('os');
 var cluster = require('cluster');
 var http = require('http');
@@ -24,7 +26,7 @@ var environment = process.env.NODE_ENV;
 if (environment === 'production') {
     if (cluster.isMaster) {
         var i = 0;
-        for (i; i < os.cpus().length * 2; i++) {
+        for (i; i < os.cpus().length; i++) {
             cluster.fork();
         }
     } else {
