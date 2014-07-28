@@ -67,6 +67,24 @@ module.exports = function (grunt) {
                     'stack-trace-limit' : 4
                 }
             }
+        },
+        copy : {
+            production : {
+                files : [{
+                    expand : true,
+                    dest : '<%= paths.dist %>',
+                    src : [
+                        '**/*',
+                        '!.git/*',
+                        '!.domino*',
+                        '!.editorconfig',
+                        '!.git*',
+                        '!.travis.yml',
+                        '!.jshintrc',
+                        '!Gruntfile.js',
+                    ]
+                }]
+            }
         }
     });
 
@@ -88,6 +106,16 @@ module.exports = function (grunt) {
     grunt.registerTask(['build:patch'], [
         'bump:patch',
         'build'
+    ]);
+
+    grunt.registerTask('build:production', [
+        'clean:dist',
+        'copy:production'
+    ]);
+
+    grunt.registerTask('build:staging', [
+        'clean:dist',
+        'copy:production'
     ]);
 
     grunt.registerTask('default', []);
