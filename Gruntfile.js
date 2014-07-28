@@ -76,7 +76,6 @@ module.exports = function (grunt) {
                     src : [
                         '**/*',
                         '!.git/*',
-                        '!.domino*',
                         '!.editorconfig',
                         '!.git*',
                         '!.travis.yml',
