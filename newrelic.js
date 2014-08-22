@@ -12,7 +12,7 @@ exports.config = {
   /**
    * Your New Relic license key.
    */
-  license_key : '',
+  license_key : require('./OathKeeper/public/newrelic.json').licenceKey,
   logging : {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
