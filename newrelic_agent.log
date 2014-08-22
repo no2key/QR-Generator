@@ -1,0 +1,3 @@
+{"name":"newrelic","hostname":"Wangyes-MacBook-Pro.local","pid":23677,"level":20,"msg":"Process was running 0 seconds before agent was loaded.","time":"2014-08-22T03:45:26.465Z","v":0}
+{"name":"newrelic","hostname":"Wangyes-MacBook-Pro.local","pid":23737,"level":20,"msg":"Process was running 0 seconds before agent was loaded.","time":"2014-08-22T03:46:02.240Z","v":0}
+{"name":"newrelic","hostname":"Wangyes-MacBook-Pro.local","pid":24064,"level":20,"msg":"Process was running 0 seconds before agent was loaded.","time":"2014-08-22T03:49:10.439Z","v":0}
